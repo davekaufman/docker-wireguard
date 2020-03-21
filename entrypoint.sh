@@ -17,9 +17,9 @@ docker_network="$(ip -o addr show dev eth0 | awk '$3 == "inet" {print $4}')"
 docker_network_rule=$([ ! -z "$docker_network" ] && echo "! -d $docker_network" || echo "")
 iptables -I OUTPUT ! -o $interface -m mark ! --mark $(wg show $interface fwmark) -m addrtype ! --dst-type LOCAL $docker_network_rule -j REJECT
 
-docker6_network="$(ip -o addr show dev eth0 | awk '$3 == "inet6" {print $4}')"
-docker6_network_rule=$([ ! -z "$docker6_network" ] && echo "! -d $docker6_network" || echo "")
-ip6tables -I OUTPUT ! -o $interface -m mark ! --mark $(wg show $interface fwmark) -m addrtype ! --dst-type LOCAL $docker6_network_rule -j REJECT
+# docker6_network="$(ip -o addr show dev eth0 | awk '$3 == "inet6" {print $4}')"
+# docker6_network_rule=$([ ! -z "$docker6_network" ] && echo "! -d $docker6_network" || echo "")
+# ip6tables -I OUTPUT ! -o $interface -m mark ! --mark $(wg show $interface fwmark) -m addrtype ! --dst-type LOCAL $docker6_network_rule -j REJECT
 
 shutdown () {
     wg-quick down $interface
